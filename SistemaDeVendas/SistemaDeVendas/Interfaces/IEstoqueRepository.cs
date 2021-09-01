@@ -10,6 +10,6 @@ namespace SistemaDeVendas.Interfaces
         Produto PesquisarProdutoPorId(int id);
         int AdicionarProduto(Produto produto, int quantidade);
         void AtualizarProduto(Produto produto);
-        void ExcluirProdutor(int id);
+        void ExcluirProduto(int id);
     }
 }

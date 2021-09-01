@@ -4,13 +4,13 @@ namespace SistemaDeVendas.Models
 {
     public class Estoque
     {
-        public Estoque(List<int> quantidadeDeProdutos, List<Produto> produtos)
+        public Estoque(int quantidadeDeProdutos, List<Produto> produtos)
         {
             QuantidadeDeProdutos = quantidadeDeProdutos;
             Produtos = produtos;
         }
 
-        public List<int> QuantidadeDeProdutos { get; private set; }
+        public int QuantidadeDeProdutos { get; private set; }
         public List<Produto> Produtos { get; private set; }
 
     }
