@@ -7,12 +7,11 @@ namespace SistemaDeVendas.Models
 {
     public class Produto
     {
-        public Produto(string nome, string tipo, string marca, int quantidade, decimal valorDecompra)
+        public Produto(string nome, string tipo, string marca, decimal valorDecompra)
         {
             Nome = nome;
             Tipo = tipo;
             Marca = marca;
-            Quantidade = quantidade;
             ValorDeCompra = valorDecompra;
         }
 
@@ -23,6 +22,5 @@ namespace SistemaDeVendas.Models
         public decimal ValorDeCompra { get; set; }
         public decimal ValorSugeridoDeVenda { get; set; }
         public DateTime DataDeValidade { get; set; }
-
     }
 }

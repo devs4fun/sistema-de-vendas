@@ -12,6 +12,7 @@ namespace SistemaDeVendas.Controllers
         {
             _estoqueRepository = estoqueRepository;
         }
+
         [HttpGet]
         public IActionResult Get(string palavraDePesquisa)
         {
