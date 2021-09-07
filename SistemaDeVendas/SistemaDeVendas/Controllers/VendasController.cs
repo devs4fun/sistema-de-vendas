@@ -60,6 +60,12 @@ namespace SistemaDeVendas.Controllers
             return Ok();
         }
 
+        [HttpDelete]
+        public IActionResult Delete(Venda venda)
+        {
+            _vendasRepository.Delete(venda);
+            return Ok();
+        }
 
     }
 }

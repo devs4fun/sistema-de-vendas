@@ -40,5 +40,14 @@ namespace SistemaDeVendas.Repository
 
             return true;
         }
+
+        public bool Delete(Venda venda)
+        {
+            AplicacaoContext aplicacaoContext = new AplicacaoContext();
+            var vendaToDelete = aplicacaoContext.Vendas.FirstOrDefault(x => x.Id == venda.Id);
+            aplicacaoContext.Vendas.Remove(vendaToDelete);
+
+            return true;
+        }
     }
 }

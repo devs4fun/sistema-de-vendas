@@ -12,6 +12,7 @@ namespace SistemaDeVendas.Repository
         IList<Produto> GetAll();
         bool Post(int id);
         bool Update(Venda venda, VendasRequestUpdate vendasRequest);
+        bool Delete(Venda venda);
 
 
 
