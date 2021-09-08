@@ -17,6 +17,7 @@ namespace SistemaDeVendas.Controllers
         public IActionResult Get(string palavraDePesquisa)
         {
             var resultadoPesquisa = _estoqueRepository.PesquisarProduto(palavraDePesquisa);
+
             return Ok(resultadoPesquisa);
         }
 
@@ -24,6 +25,7 @@ namespace SistemaDeVendas.Controllers
         public IActionResult GetAll()
         {
             var todosOsProdutos = _estoqueRepository.ListarTodosOsProdutos();
+
             return Ok(todosOsProdutos);
         }
 
@@ -32,7 +34,7 @@ namespace SistemaDeVendas.Controllers
         {
             var produto = _estoqueRepository.PesquisarProdutoPorId(id);
 
-            if (produto == null) NotFound();
+            if (produto == null) return NotFound();
 
             return Ok(produto);
         }
@@ -40,15 +42,17 @@ namespace SistemaDeVendas.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Produto produto, int quantidade)
         {
-            var id = _estoqueRepository.AdicionarProduto(produto, quantidade);
+            if (produto == null || quantidade < 1) return BadRequest();
 
-            return CreatedAtAction(nameof(GetById), new { id = id }, produto);
+            _estoqueRepository.AdicionarProduto(produto, quantidade);
+
+            return Ok();
         }
 
         [HttpPut]
         public IActionResult Update([FromBody] Produto produto)
         {
-            if (produto == null) NotFound();
+            if (produto == null) return NotFound();
 
             _estoqueRepository.AtualizarProduto(produto);
 

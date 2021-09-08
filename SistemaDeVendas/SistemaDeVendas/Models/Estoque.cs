@@ -12,6 +12,5 @@ namespace SistemaDeVendas.Models
 
         public int QuantidadeDeProdutos { get; private set; }
         public List<Produto> Produtos { get; private set; }
-
     }
 }
