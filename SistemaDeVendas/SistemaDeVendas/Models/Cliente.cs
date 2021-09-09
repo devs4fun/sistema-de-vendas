@@ -8,8 +8,8 @@ namespace SistemaDeVendas.Models
         [Required]
         public string Nome { get; set; }
         [Required]
-        public int Telefone { get; set; }
-        public int CPF { get; set; }
+        public string Telefone { get; set; }
+        public string CPF { get; set; }
         [Required]
         public string Endereço { get; set; }
         public string Email { get; set; }
