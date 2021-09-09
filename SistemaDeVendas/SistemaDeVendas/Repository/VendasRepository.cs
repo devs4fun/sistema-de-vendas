@@ -10,6 +10,15 @@ namespace SistemaDeVendas.Repository
     {
         private static IList<Produto> produtos = new List<Produto>();
 
+        public bool Post(int id)
+        {
+            AplicacaoContext aplicacaoContext = new AplicacaoContext();
+            var response = aplicacaoContext.Produtos.FirstOrDefault(x => x.Id == id);
+            aplicacaoContext.Produtos.Remove(response);
+            aplicacaoContext.SaveChanges();
+            return true;
+        }
+
         public Venda GetById(int id)
         {
             AplicacaoContext aplicacaoContext = new AplicacaoContext();
@@ -20,15 +29,6 @@ namespace SistemaDeVendas.Repository
         public IList<Produto> GetAll()
         {
             return produtos;
-        }
-
-        public bool Post(int id)
-        {
-            AplicacaoContext aplicacaoContext = new AplicacaoContext();
-            var produtoDoBanco = aplicacaoContext.Produtos.FirstOrDefault(x => x.Id == id);
-            aplicacaoContext.Produtos.Remove(produtoDoBanco);
-            aplicacaoContext.SaveChanges();
-            return true;
         }
 
         public bool Update(Venda venda, VendasRequestUpdate vendarequest)

@@ -20,10 +20,21 @@ namespace SistemaDeVendas.Controllers
             _vendasRepository = new VendasRepository();
         }
 
+        [HttpPost]
+        public ActionResult Create(int id)
+        {
+            if (id <= 0)
+                return StatusCode(400);
+
+            var venda =_vendasRepository.Post(id);
+
+            return StatusCode(201, venda);
+        }
+
         [HttpGet]
         public ActionResult Get(int id)
         {
-            if (id == 0)
+            if (id <= 0 )
                 return BadRequest();
 
             var produto = _vendasRepository.GetById(id);
@@ -40,16 +51,6 @@ namespace SistemaDeVendas.Controllers
             return Ok(produtos);
         }
 
-        [HttpPost]
-        public ActionResult Post(int id)
-        {
-            if (id == 0)
-                return NotFound();
-
-            var venda =_vendasRepository.Post(id);
-
-            return Ok(venda);
-        }
         [HttpPut]
         public IActionResult Put(Venda venda, VendasRequestUpdate vendarequest)
         {
