@@ -10,11 +10,12 @@ namespace SistemaDeVendas.Repository
     {
         private static IList<Produto> produtos = new List<Produto>();
 
-        public bool Post(int id)
+        public bool Patch(int id)
         {
             AplicacaoContext aplicacaoContext = new AplicacaoContext();
             var response = aplicacaoContext.Produtos.FirstOrDefault(x => x.Id == id);
-            aplicacaoContext.Produtos.Remove(response);
+            response.Quantidade -= 1;
+            aplicacaoContext.Produtos.Update(response);
             aplicacaoContext.SaveChanges();
             return true;
         }

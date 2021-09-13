@@ -22,6 +22,7 @@ namespace SistemaDeVendas.Models
         [Required]
         public bool Status { get; set; }
 
+
         public void Update(VendasRequestUpdate request)
         {
             Quantidade = request.Quantidade;

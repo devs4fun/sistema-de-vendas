@@ -1,16 +1,11 @@
 ﻿namespace SistemaDeVendas.Models
 {
-    public class Pagamento
+    public enum Pagamento
     {
-        enum FormaDePagamento
-        {
-            Dinheiro,
-            Débito,
-            Crédito,
-            Pix
-        }
-
+        Dinheiro,
+        Débito,
+        Crédito,
+        Pix
     }
-
 }
 

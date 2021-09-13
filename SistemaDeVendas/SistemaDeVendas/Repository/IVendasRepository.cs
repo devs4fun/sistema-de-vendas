@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace SistemaDeVendas.Repository
 {
-    interface IVendasRepository
+    public interface IVendasRepository
     {
         Venda GetById(int id);
         IList<Produto> GetAll();
-        bool Post(int id);
+        bool Patch(int id);
         bool Update(Venda venda, VendasRequestUpdate vendasRequest);
         bool Delete(Venda venda);
-
-
 
     }
 }

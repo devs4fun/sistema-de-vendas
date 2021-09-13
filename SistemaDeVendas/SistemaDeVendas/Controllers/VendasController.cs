@@ -13,20 +13,23 @@ namespace SistemaDeVendas.Controllers
     [ApiController]
     public class VendasController : ControllerBase
     {
-        private readonly VendasRepository _vendasRepository;
-        
-        public VendasController()
+        private readonly IVendasRepository _vendasRepository;
+
+        public VendasController(IVendasRepository vendasRepository)
         {
-            _vendasRepository = new VendasRepository();
+            _vendasRepository = vendasRepository;
         }
 
-        [HttpPost]
-        public ActionResult Create(int id)
+        [HttpPatch("{id}")]
+        public ActionResult Patch(int id)
         {
             if (id <= 0)
                 return StatusCode(400);
 
-            var venda =_vendasRepository.Post(id);
+            var venda =_vendasRepository.Patch(id);
+
+            if (venda == false)
+                return StatusCode(500);
 
             return StatusCode(201, venda);
         }
@@ -52,7 +55,7 @@ namespace SistemaDeVendas.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put(Venda venda, VendasRequestUpdate vendarequest)
+        public IActionResult Put([FromBody]Venda venda, [FromHeader]VendasRequestUpdate vendarequest)
         {
             var vendaDoBanco = _vendasRepository.GetById(venda.Id);
             vendaDoBanco.Update(vendarequest);
