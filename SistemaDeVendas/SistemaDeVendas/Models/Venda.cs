@@ -8,6 +8,7 @@ namespace SistemaDeVendas.Models
 {
     public class Venda
     {
+        [Required]
         public int Id { get; set; }
         [Required]
         public decimal Valor { get; set; }
@@ -22,16 +23,5 @@ namespace SistemaDeVendas.Models
         [Required]
         public bool Status { get; set; }
 
-
-        public void Update(VendasRequestUpdate request)
-        {
-            Quantidade = request.Quantidade;
-            Valor = request.Valor;
-            Cliente = request.Cliente;
-            Produto = request.Produto;
-            FormaDePagamento = request.FormaDePagamento;
-            Status = request.Status;
-
-        }
     }
 }

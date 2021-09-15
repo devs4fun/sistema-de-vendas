@@ -3,8 +3,8 @@
     public enum Pagamento
     {
         Dinheiro,
-        Débito,
-        Crédito,
+        Debito,
+        Credito,
         Pix
     }
 }

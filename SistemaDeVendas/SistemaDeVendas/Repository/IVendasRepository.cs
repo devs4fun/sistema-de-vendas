@@ -10,7 +10,7 @@ namespace SistemaDeVendas.Repository
     {
         Venda GetById(int id);
         IList<Produto> GetAll();
-        bool Patch(int id);
+        bool Criar(Venda venda);
         bool Update(Venda venda, VendasRequestUpdate vendasRequest);
         bool Delete(Venda venda);
 

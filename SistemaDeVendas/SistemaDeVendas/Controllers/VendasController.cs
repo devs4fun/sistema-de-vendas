@@ -20,18 +20,18 @@ namespace SistemaDeVendas.Controllers
             _vendasRepository = vendasRepository;
         }
 
-        [HttpPatch("{id}")]
-        public ActionResult Patch(int id)
+        [HttpPost]
+        public ActionResult Post([FromBody]Venda vendaRequest)
         {
-            if (id <= 0)
+            if (vendaRequest.Produto == null && vendaRequest.Cliente == null /*...*/)
                 return StatusCode(400);
 
-            var venda =_vendasRepository.Patch(id);
+            var vendaResponse = _vendasRepository.Criar(vendaRequest);
 
-            if (venda == false)
+            if (vendaResponse == false)
                 return StatusCode(500);
 
-            return StatusCode(201, venda);
+            return StatusCode(201, vendaRequest);
         }
 
         [HttpGet]
@@ -58,7 +58,7 @@ namespace SistemaDeVendas.Controllers
         public IActionResult Put([FromBody]Venda venda, [FromHeader]VendasRequestUpdate vendarequest)
         {
             var vendaDoBanco = _vendasRepository.GetById(venda.Id);
-            vendaDoBanco.Update(vendarequest);
+           // vendaDoBanco.Update(vendarequest);
             _vendasRepository.Update(venda, vendarequest);
 
             return Ok();
