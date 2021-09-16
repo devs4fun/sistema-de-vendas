@@ -10,7 +10,7 @@ using Xunit;
 
 namespace SistemaDeVendas.UnitTests.EstoqueTests
 {
-    public class GetByIdTests
+    public class BuscarPorIdTest
     {
         [Fact]
         public void InteiroPassadoComoId_ExecutaGetById_VerificaSePesquisarPorIdFoiChamadoUmaVez()
@@ -20,7 +20,7 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
             var controller = new EstoquesController(estoqueRepositoryMock.Object);
 
             // Act
-            controller.GetById(1);
+            controller.BuscarPorId(1);
 
             // Assert
             estoqueRepositoryMock.Verify(x => x.PesquisarProdutoPorId(1), Times.Once);
@@ -32,9 +32,8 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
             // Arrange
             var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
             var controller = new EstoquesController(estoqueRepositoryMock.Object);
-
             // Act
-            var resultadoEsperado = controller.GetById(1) as NotFoundResult;
+            var resultadoEsperado = controller.BuscarPorId(1) as NotFoundResult;
 
             // Assert
             Assert.True(resultadoEsperado.StatusCode == 404);

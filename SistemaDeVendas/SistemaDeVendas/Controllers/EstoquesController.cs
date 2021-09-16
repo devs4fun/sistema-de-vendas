@@ -14,15 +14,17 @@ namespace SistemaDeVendas.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get(string palavraDePesquisa)
+        public IActionResult Buscar(string palavraDePesquisa)
         {
+            if (string.IsNullOrWhiteSpace(palavraDePesquisa)) return BadRequest();
+
             var resultadoPesquisa = _estoqueRepository.PesquisarProduto(palavraDePesquisa);
 
             return Ok(resultadoPesquisa);
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult BuscarTodos()
         {
             var todosOsProdutos = _estoqueRepository.ListarTodosOsProdutos();
 
@@ -30,8 +32,10 @@ namespace SistemaDeVendas.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetById(int id)
+        public IActionResult BuscarPorId(int id)
         {
+            if (id == 0) return BadRequest();
+
             var produto = _estoqueRepository.PesquisarProdutoPorId(id);
 
             if (produto == null) return NotFound();
@@ -40,17 +44,17 @@ namespace SistemaDeVendas.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Produto produto, int quantidade)
+        public IActionResult Adicionar([FromBody] Produto produto)
         {
-            if (produto == null || quantidade < 1) return BadRequest();
+            if (produto == null) return BadRequest();
 
-            _estoqueRepository.AdicionarProduto(produto, quantidade);
+            _estoqueRepository.AdicionarProduto(produto);
 
             return Ok();
         }
 
         [HttpPut]
-        public IActionResult Update([FromBody] Produto produto)
+        public IActionResult Atualizar([FromBody] Produto produto)
         {
             if (produto == null) return NotFound();
 
@@ -60,8 +64,10 @@ namespace SistemaDeVendas.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete(int id)
+        public IActionResult Excluir(int id)
         {
+            if (id == 0) return BadRequest();
+
             _estoqueRepository.ExcluirProduto(id);
 
             return NoContent();

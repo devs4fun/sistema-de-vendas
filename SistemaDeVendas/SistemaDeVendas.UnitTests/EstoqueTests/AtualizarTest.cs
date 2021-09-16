@@ -10,7 +10,7 @@ using Xunit;
 
 namespace SistemaDeVendas.UnitTests.EstoqueTests
 {
-    public class UpdateTests
+    public class AtualizarTest
     {
         [Fact]
         public void ProdutoNaoNullPassado_ExecutaUpdate_VerificaSeAtualizarProdutoFoiChamadoUmaVez()
@@ -22,7 +22,7 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
             var produto = new Produto() { Nome = "Kayak", Tipo = "Perfume", Marca = "Avon", Quantidade = 10 };
 
             // Act
-            controller.Update(produto);
+            controller.Atualizar(produto);
 
             // Assert
             estoqueRepositoryMock.Verify(x => x.AtualizarProduto(produto), Times.Once);
@@ -38,7 +38,7 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
             Produto produto = null;
 
             // Act
-            var retornoEsperado = controller.Update(produto) as NotFoundResult;
+            var retornoEsperado = controller.Atualizar(produto) as NotFoundResult;
 
             // Assert
             Assert.True(retornoEsperado.StatusCode == 404);

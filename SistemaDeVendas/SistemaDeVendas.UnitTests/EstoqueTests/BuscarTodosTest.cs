@@ -8,7 +8,7 @@ using Xunit;
 
 namespace SistemaDeVendas.UnitTests.EstoqueTests
 {
-    public class GetAllTests
+    public class BuscarTodosTest
     {
         [Fact]
         public void NaoExisteParametros_ExecutaGetAll_VerificaSeListarTodosOsProdutosFoiChamadoUmaVez()
@@ -18,7 +18,7 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
             var controller = new EstoquesController(estoqueRepositoryMock.Object);
 
             // Act
-            controller.GetAll();
+            controller.BuscarTodos();
 
             // Assert
             estoqueRepositoryMock.Verify(x => x.ListarTodosOsProdutos(), Times.Once);

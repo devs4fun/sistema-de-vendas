@@ -7,7 +7,7 @@ using Xunit;
 
 namespace SistemaDeVendas.UnitTests.EstoqueTests
 {
-    public class CreateTest
+    public class AdicionarTest
     {
         [Fact]
         public void ProdutoEQuantidadeCorretosDeProdutosPassado_ExecutaCreate_VerificaSeAdicionarProdutoFoiChamadoUmaVez() 
@@ -25,10 +25,10 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
             };
 
             // Act
-            controller.Create(produto, 10);            
+            controller.Adicionar(produto);            
 
             // Assert
-            estoqueRepositoryMock.Verify(x => x.AdicionarProduto(produto, 10), Times.Once);
+            estoqueRepositoryMock.Verify(x => x.AdicionarProduto(produto), Times.Once);
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
             Produto produto = null;
 
             // Act
-            var resultadoEsperado = controller.Create(produto, 10) as BadRequestResult;
+            var resultadoEsperado = controller.Adicionar(produto) as BadRequestResult;
 
             // Assert
             Assert.True(resultadoEsperado.StatusCode == 400);
@@ -57,7 +57,7 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
             Produto produto = null;
 
             // Act
-            var resultadoEsperado = controller.Create(produto, -1) as BadRequestResult;
+            var resultadoEsperado = controller.Adicionar(produto) as BadRequestResult;
 
             // Assert
             Assert.True(resultadoEsperado.StatusCode == 400);

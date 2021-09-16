@@ -8,7 +8,7 @@ namespace SistemaDeVendas.Interfaces
         List<Produto> PesquisarProduto(string palavraDePesquisa);
         List<Produto> ListarTodosOsProdutos();
         Produto PesquisarProdutoPorId(int id);
-        void AdicionarProduto(Produto produto, int quantidade);
+        void AdicionarProduto(Produto produto);
         void AtualizarProduto(Produto produto);
         void ExcluirProduto(int id);
     }

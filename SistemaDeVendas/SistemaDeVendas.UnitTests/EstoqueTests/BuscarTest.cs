@@ -1,6 +1,7 @@
 ﻿using Moq;
 using SistemaDeVendas.Controllers;
 using SistemaDeVendas.Interfaces;
+using SistemaDeVendas.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,20 +9,22 @@ using Xunit;
 
 namespace SistemaDeVendas.UnitTests.EstoqueTests
 {
-    public class DeleteTests
+    public class BuscarTest
     {
         [Fact]
-        public void InteiroPassadoComoId_ExecutaDelete_VerificaSeExcluirProdutosFoiChamadoUmaVez()
+        public void StringDePesquisaPassada_ExecutaGet_VerificaSePesquisarProdutoFoiChamadoUmaVez()
         {
             // Arrange
+            var stringPesquisa = "Kayak 1";
+
             var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
             var controller = new EstoquesController(estoqueRepositoryMock.Object);
 
             // Act
-            controller.Delete(1);
+            controller.Buscar(stringPesquisa);
 
             // Assert
-            estoqueRepositoryMock.Verify(x => x.ExcluirProduto(1), Times.Once);
+            estoqueRepositoryMock.Verify(x => x.PesquisarProduto(stringPesquisa), Times.Once);
         }
     }
 }
