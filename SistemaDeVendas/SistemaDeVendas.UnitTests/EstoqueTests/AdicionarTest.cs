@@ -10,7 +10,23 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
     public class AdicionarTest
     {
         [Fact]
-        public void ProdutoEQuantidadeCorretosDeProdutosPassado_ExecutaCreate_VerificaSeAdicionarProdutoFoiChamadoUmaVez() 
+        public void ProdutoNullPassado_ExecutaAdicionar_DeveriaRetornarUmBadRequestResult()
+        {
+            // Arrange
+            var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
+            var controller = new EstoquesController(estoqueRepositoryMock.Object);
+
+            Produto produto = null;
+
+            // Act
+            var resultadoEsperado = controller.Adicionar(produto) as BadRequestResult;
+
+            // Assert
+            Assert.True(resultadoEsperado.StatusCode == 400);
+        }
+
+        [Fact]
+        public void ProdutoCorretoPassado_ExecutaAdicionar_VerificaSeAdicionarProdutoFoiChamadoUmaVez() 
         {
             // Arrange
             var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
@@ -32,35 +48,25 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
         }
 
         [Fact]
-        public void ProdutoNullEQuantidadeCorretaPassado_ExecutaCreate_DeveriaRetornarUmBadRequestResult()
+        public void ProdutoCorretoPassado_ExecutaAdicionar_DeveriaRetornarOkResult()
         {
             // Arrange
             var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
             var controller = new EstoquesController(estoqueRepositoryMock.Object);
 
-            Produto produto = null;
+            var produto = new Produto()
+            {
+                Nome = "Kayak",
+                Tipo = "Perfume",
+                Marca = "Avon",
+                Quantidade = 20
+            };
 
             // Act
-            var resultadoEsperado = controller.Adicionar(produto) as BadRequestResult;
+            var resultadoEsperado = controller.Adicionar(produto) as OkResult;
 
             // Assert
-            Assert.True(resultadoEsperado.StatusCode == 400);
-        }
-
-        [Fact]
-        public void ProdutoCorretoEQuantidadeMenorQueUmPassado_ExecutaCreate_DeveriaRetornarUmBadRequestResult()
-        {
-            // Arrange
-            var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
-            var controller = new EstoquesController(estoqueRepositoryMock.Object);
-
-            Produto produto = null;
-
-            // Act
-            var resultadoEsperado = controller.Adicionar(produto) as BadRequestResult;
-
-            // Assert
-            Assert.True(resultadoEsperado.StatusCode == 400);
+            Assert.True(resultadoEsperado.StatusCode == 200);
         }
     }
 }

@@ -3,9 +3,6 @@ using Moq;
 using SistemaDeVendas.Controllers;
 using SistemaDeVendas.Interfaces;
 using SistemaDeVendas.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace SistemaDeVendas.UnitTests.EstoqueTests
@@ -13,7 +10,21 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
     public class BuscarPorIdTest
     {
         [Fact]
-        public void InteiroPassadoComoId_ExecutaGetById_VerificaSePesquisarPorIdFoiChamadoUmaVez()
+        public void InteiroPassadoComoIdIgualAZero_ExecutaBuscarPorId_DeveriaRetornarBadRequestResult()
+        {
+            // Arrange
+            var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
+            var controller = new EstoquesController(estoqueRepositoryMock.Object);
+
+            // Act
+            var resultadoEsperado = controller.BuscarPorId(0) as BadRequestResult;
+
+            // Assert
+            Assert.True(resultadoEsperado.StatusCode == 400);
+
+        }
+        [Fact]
+        public void InteiroPassadoComoId_ExecutaBuscarPorId_VerificaSePesquisarPorIdFoiChamadoUmaVez()
         {
             // Arrange
             var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
@@ -27,16 +38,35 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
         }
 
         [Fact]
-        public void IdDeProdutoNaoExisteNoBanco_ExecutaGetById_VerificaSeRetornaNotFound()
+        public void IdDeProdutoNaoExisteNoBanco_ExecutaBuscarPorId_DeveriaRetornarNotFound()
         {
             // Arrange
             var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
             var controller = new EstoquesController(estoqueRepositoryMock.Object);
+
             // Act
             var resultadoEsperado = controller.BuscarPorId(1) as NotFoundResult;
 
             // Assert
             Assert.True(resultadoEsperado.StatusCode == 404);
+        }
+
+        [Fact]
+        public void InteiroPassadoComoId_ExecutaBuscarPorId_DeveriaRetornarOkObjectResult()
+        {
+            // Arrange
+            var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
+            var controller = new EstoquesController(estoqueRepositoryMock.Object);
+
+            var produto = new Produto() { Nome = "Kayak", Tipo = "Perfume", Marca = "Avon", Quantidade = 10 };
+
+            estoqueRepositoryMock.Setup(p => p.PesquisarProdutoPorId(1)).Returns(produto);
+
+            // Act
+            var resultadoEsperado = controller.BuscarPorId(1) as OkObjectResult;
+
+            // Assert
+            Assert.True(resultadoEsperado.StatusCode == 200);
         }
     }
 }

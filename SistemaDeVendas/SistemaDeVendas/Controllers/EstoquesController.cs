@@ -14,19 +14,11 @@ namespace SistemaDeVendas.Controllers
         }
 
         [HttpGet]
-        public IActionResult Buscar(string palavraDePesquisa)
-        {
-            if (string.IsNullOrWhiteSpace(palavraDePesquisa)) return BadRequest();
-
-            var resultadoPesquisa = _estoqueRepository.PesquisarProduto(palavraDePesquisa);
-
-            return Ok(resultadoPesquisa);
-        }
-
-        [HttpGet]
-        public IActionResult BuscarTodos()
+        public IActionResult Buscar()
         {
             var todosOsProdutos = _estoqueRepository.ListarTodosOsProdutos();
+
+            if (todosOsProdutos == null) return BadRequest();
 
             return Ok(todosOsProdutos);
         }

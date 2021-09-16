@@ -13,7 +13,23 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
     public class AtualizarTest
     {
         [Fact]
-        public void ProdutoNaoNullPassado_ExecutaUpdate_VerificaSeAtualizarProdutoFoiChamadoUmaVez()
+        public void ProdutoNullPassado_ExecutaAtualizar_DeveriaRetornarNotFoundResult()
+        {
+            // Arrange
+            var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
+            var controller = new EstoquesController(estoqueRepositoryMock.Object);
+
+            Produto produto = null;
+
+            // Act
+            var retornoEsperado = controller.Atualizar(produto) as NotFoundResult;
+
+            // Assert
+            Assert.True(retornoEsperado.StatusCode == 404);
+        }
+
+        [Fact]
+        public void ProdutoPassado_ExecutaAtualizar_VerificaSeAtualizarProdutoFoiChamadoUmaVez()
         {
             // Arrange
             var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
@@ -29,19 +45,19 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
         }
 
         [Fact]
-        public void ProdutoNullPassado_ExecutaUpdate_DeveriaRetornarNotFoundResult()
+        public void ProdutoPassado_ExecutaAtualizar_DeveriaRetornarOkResult()
         {
             // Arrange
             var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
             var controller = new EstoquesController(estoqueRepositoryMock.Object);
 
-            Produto produto = null;
+            var produto = new Produto() { Nome = "Kayak", Tipo = "Perfume", Marca = "Avon", Quantidade = 10 };
 
             // Act
-            var retornoEsperado = controller.Atualizar(produto) as NotFoundResult;
+            var retornoEsperado = controller.Atualizar(produto) as NoContentResult;
 
             // Assert
-            Assert.True(retornoEsperado.StatusCode == 404);
+            Assert.True(retornoEsperado.StatusCode == 204);
         }
     }
 }

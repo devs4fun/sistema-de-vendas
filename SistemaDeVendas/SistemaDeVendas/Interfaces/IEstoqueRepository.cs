@@ -5,7 +5,6 @@ namespace SistemaDeVendas.Interfaces
 {
     public interface IEstoqueRepository
     {
-        List<Produto> PesquisarProduto(string palavraDePesquisa);
         List<Produto> ListarTodosOsProdutos();
         Produto PesquisarProdutoPorId(int id);
         void AdicionarProduto(Produto produto);
