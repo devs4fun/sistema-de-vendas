@@ -11,8 +11,6 @@ namespace SistemaDeVendas.Models
         [Required]
         public int Id { get; set; }
         [Required]
-        public decimal Valor { get; set; }
-        [Required]
         public int Quantidade { get; set; }
         [Required]
         public Cliente Cliente { get; set; }
