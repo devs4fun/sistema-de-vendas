@@ -21,5 +21,14 @@ namespace SistemaDeVendas.Models
         [Required]
         public bool Status { get; set; }
 
+        public Venda(VendaRequest vendaRequest)
+        {
+            Quantidade = vendaRequest.Quantidade;
+            Cliente = vendaRequest.Cliente;
+            Produto = vendaRequest.Produto;
+            FormaDePagamento = vendaRequest.FormaDePagamento;
+            Status = vendaRequest.Status;
+        }
+
     }
 }

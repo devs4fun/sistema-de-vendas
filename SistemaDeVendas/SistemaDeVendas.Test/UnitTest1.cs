@@ -17,8 +17,18 @@ namespace SistemaDeVendas.Test
             //Arrange
             Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
             VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
-            Venda vendaRequest = new Venda();
-            vendaRequest.Cliente = null;
+            Produto produtoRequest = new Produto()
+            {
+                Nome = "kaiak",
+                Tipo = "perfume",
+                Marca = "Natura",
+                Quantidade = 10,
+                ValorDeCompra = 100,
+                ValorSugeridoDeVenda = 150,
+                DataDeValidade = new DateTime(21, 10, 02)
+            };
+            VendaRequest vendaRequest = new VendaRequest();
+            vendaRequest.Produto = produtoRequest;
 
             //Act
             var resultado = vendasController.Post(vendaRequest) as StatusCodeResult;
@@ -33,8 +43,16 @@ namespace SistemaDeVendas.Test
             //Arrange
             Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
             VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
-            Venda vendaRequest = new Venda();
-            vendaRequest.Produto = null;
+            Cliente clienteRequest = new Cliente()
+            {
+                Nome = "eu",
+                CPF = "215.154.653-52",
+                Telefone = "22154876",
+                Email = "raphael.sants@hotmail.com",
+                Endereço = "rua sagent davi n3"
+            };
+            VendaRequest vendaRequest = new VendaRequest();
+            vendaRequest.Cliente = clienteRequest;
 
             //Act
             var resultado = vendasController.Post(vendaRequest) as StatusCodeResult;
@@ -47,9 +65,8 @@ namespace SistemaDeVendas.Test
         public void Testando_UmaVenda_BemSucedida()
         {
             //Arrange
-            Mock<VendasRepository> vendasRepositoryMock = new Mock<VendasRepository>();
+            Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
             VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
-
             Cliente clienteTeste = new Cliente()
             {
                 Id = 4,
@@ -58,7 +75,6 @@ namespace SistemaDeVendas.Test
                 Endereço = "Rua Sargento Davi nº3",
                 Email = "raphaeltest@yahoo.com.br"
             };
-            
             Produto produtoTeste = new Produto()
             {
                 Id = 1,
@@ -70,15 +86,16 @@ namespace SistemaDeVendas.Test
                 ValorSugeridoDeVenda = 58,
                 DataDeValidade = new DateTime(21, 09, 11)
             };
-            Venda vendaRequest = new Venda()
+            VendaRequest vendaRequest = new VendaRequest()
             {
-                Id = 1,
                 Quantidade = 2,
                 Cliente = clienteTeste,
                 Produto = produtoTeste,
                 FormaDePagamento = Pagamento.Pix,
                 Status = true
             };
+            
+            vendasRepositoryMock.Setup(x => x.Criar()).Return(true);
 
             //Act
             var result = vendasController.Post(vendaRequest) as CreatedResult;

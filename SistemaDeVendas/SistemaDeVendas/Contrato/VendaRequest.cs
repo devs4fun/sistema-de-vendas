@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SistemaDeVendas.Models
 {
-    public class VendasRequestUpdate
+    public class VendaRequest
     {
         [Required]
         public decimal Valor { get; set; }

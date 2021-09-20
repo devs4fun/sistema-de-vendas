@@ -21,12 +21,13 @@ namespace SistemaDeVendas.Controllers
         }
 
         [HttpPost]
-        public ActionResult Post([FromBody]Venda vendaRequest)
+        public ActionResult Post([FromBody]VendaRequest vendaRequest)
         {
-            if (vendaRequest.Produto == null && vendaRequest.Cliente == null /*...*/)
+            if (vendaRequest.Produto == null || vendaRequest.Cliente == null /*...*/)
                 return StatusCode(400);
 
-            var vendaResponse = _vendasRepository.Criar(vendaRequest);
+            var venda = new Venda(vendaRequest);
+            var vendaResponse = _vendasRepository.Criar(venda);
 
             if (vendaResponse == false)
                 return StatusCode(500);
@@ -34,42 +35,42 @@ namespace SistemaDeVendas.Controllers
             return StatusCode(201, vendaRequest);
         }
 
-        [HttpGet]
-        public ActionResult Get(int id)
-        {
-            if (id <= 0 )
-                return BadRequest();
+        //[HttpGet]
+        //public ActionResult Get(int id)
+        //{
+        //    if (id <= 0 )
+        //        return BadRequest();
 
-            var produto = _vendasRepository.GetById(id);
+        //    var produto = _vendasRepository.GetById(id);
 
-            return Ok(produto);
-        }
-        [HttpGet]
-        public ActionResult GetAll()
-        {
-            var produtos = _vendasRepository.GetAll();
-            if (produtos == null || produtos.Any() == false)
-                return NotFound();
+        //    return Ok(produto);
+        //}
+        //[HttpGet]
+        //public ActionResult GetAll()
+        //{
+        //    var produtos = _vendasRepository.GetAll();
+        //    if (produtos == null || produtos.Any() == false)
+        //        return NotFound();
 
-            return Ok(produtos);
-        }
+        //    return Ok(produtos);
+        //}
 
-        [HttpPut]
-        public IActionResult Put([FromBody]Venda venda, [FromHeader]VendasRequestUpdate vendarequest)
-        {
-            var vendaDoBanco = _vendasRepository.GetById(venda.Id);
-           // vendaDoBanco.Update(vendarequest);
-            _vendasRepository.Update(venda, vendarequest);
+        //[HttpPut]
+        //public IActionResult Put([FromBody]Venda venda, [FromHeader]VendaRequest vendarequest)
+        //{
+        //    var vendaDoBanco = _vendasRepository.GetById(venda.Id);
+        //   // vendaDoBanco.Update(vendarequest);
+        //    _vendasRepository.Update(venda, vendarequest);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
-        [HttpDelete]
-        public IActionResult Delete(Venda venda)
-        {
-            _vendasRepository.Delete(venda);
-            return Ok();
-        }
+        //[HttpDelete]
+        //public IActionResult Delete(Venda venda)
+        //{
+        //    _vendasRepository.Delete(venda);
+        //    return Ok();
+        //}
 
     }
 }

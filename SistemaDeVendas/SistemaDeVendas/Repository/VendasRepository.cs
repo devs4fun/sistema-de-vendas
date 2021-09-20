@@ -18,35 +18,35 @@ namespace SistemaDeVendas.Repository
             return true;
         }
 
-        public Venda GetById(int id)
-        {
-            AplicacaoContext aplicacaoContext = new AplicacaoContext();
-            var venda = aplicacaoContext.Vendas.FirstOrDefault(x => x.Id == id);
-            return venda;
-        }
+        //public Venda GetById(int id)
+        //{
+        //    AplicacaoContext aplicacaoContext = new AplicacaoContext();
+        //    var venda = aplicacaoContext.Vendas.FirstOrDefault(x => x.Id == id);
+        //    return venda;
+        //}
 
-        public IList<Produto> GetAll()
-        {
-            return produtos;
-        }
+        //public IList<Produto> GetAll()
+        //{
+        //    return produtos;
+        //}
 
-        public bool Update(Venda venda, VendasRequestUpdate vendarequest)
-        {
-            AplicacaoContext aplicacaoContext = new AplicacaoContext();
-            var vendaToDelete = aplicacaoContext.Vendas.FirstOrDefault(x => x.Id == venda.Id);
-            aplicacaoContext.Remove(vendaToDelete);
-            aplicacaoContext.Add(vendarequest);
+        //public bool Update(Venda venda, VendasRequest vendarequest)
+        //{
+        //    AplicacaoContext aplicacaoContext = new AplicacaoContext();
+        //    var vendaToDelete = aplicacaoContext.Vendas.FirstOrDefault(x => x.Id == venda.Id);
+        //    aplicacaoContext.Remove(vendaToDelete);
+        //    aplicacaoContext.Add(vendarequest);
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public bool Delete(Venda venda)
-        {
-            AplicacaoContext aplicacaoContext = new AplicacaoContext();
-            var vendaToDelete = aplicacaoContext.Vendas.FirstOrDefault(x => x.Id == venda.Id);
-            aplicacaoContext.Vendas.Remove(vendaToDelete);
+        //public bool Delete(Venda venda)
+        //{
+        //    AplicacaoContext aplicacaoContext = new AplicacaoContext();
+        //    var vendaToDelete = aplicacaoContext.Vendas.FirstOrDefault(x => x.Id == venda.Id);
+        //    aplicacaoContext.Vendas.Remove(vendaToDelete);
 
-            return true;
-        }
+        //    return true;
+        //}
     }
 }
