@@ -94,15 +94,58 @@ namespace SistemaDeVendas.Test
                 FormaDePagamento = Pagamento.Pix,
                 Status = true
             };
+            vendasRepositoryMock.Setup(x => x.Criar(It.IsAny<Venda>())).Returns(true);
             
-            vendasRepositoryMock.Setup(x => x.Criar()).Return(true);
 
             //Act
-            var result = vendasController.Post(vendaRequest) as CreatedResult;
+            var result = vendasController.Post(vendaRequest) as ObjectResult;
 
             ////Assert
-            //vendasRepositoryMock.Verify(X => X.Criar(vendaRequest), Times.Once);
+            
             Assert.True(result.StatusCode == 201);
+        }
+
+        public void Testando_QuantidadeDeVenda_BemSucedida()
+        {
+            //Arrange
+            Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
+            VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
+            Cliente clienteTeste = new Cliente()
+            {
+                Id = 4,
+                Nome = "Raphael",
+                Telefone = "982112530",
+                Endereço = "Rua Sargento Davi nº3",
+                Email = "raphaeltest@yahoo.com.br"
+            };
+            Produto produtoTeste = new Produto()
+            {
+                Id = 1,
+                Nome = "Natura Homem",
+                Tipo = "Perfume",
+                Marca = "Natura",
+                Quantidade = 100,
+                ValorDeCompra = 30,
+                ValorSugeridoDeVenda = 58,
+                DataDeValidade = new DateTime(21, 09, 11)
+            };
+            VendaRequest vendaRequest = new VendaRequest()
+            {
+                Quantidade = 2,
+                Cliente = clienteTeste,
+                Produto = produtoTeste,
+                FormaDePagamento = Pagamento.Pix,
+                Status = true
+            };
+            vendasRepositoryMock.Setup(x => x.Criar(It.IsAny<Venda>())).Returns(true);
+
+
+            //Act
+            var result = vendasController.Post(vendaRequest) as ObjectResult;
+
+            ////Assert
+            vendasRepositoryMock.Verify(X => X.Criar(It.IsAny<Venda>()), Times.Exactly(1));
+           
         }
     }
 }
