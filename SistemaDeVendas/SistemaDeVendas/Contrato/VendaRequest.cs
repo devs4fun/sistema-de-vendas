@@ -8,6 +8,8 @@ namespace SistemaDeVendas.Models
 {
     public class VendaRequest
     {
+        
+        public bool EhBrinde { get; set; }
         [Required]
         public decimal Valor { get; set; }
         [Required]

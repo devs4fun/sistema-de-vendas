@@ -26,6 +26,11 @@ namespace SistemaDeVendas.Controllers
             if (vendaRequest.Produto == null || vendaRequest.Cliente == null /*...*/)
                 return StatusCode(400);
 
+            if (vendaRequest.EhBrinde == true)
+            {
+                vendaRequest.Produto.ValorSugeridoDeVenda = 0;
+            }
+
             var venda = new Venda(vendaRequest);
             var vendaResponse = _vendasRepository.Criar(venda);
 

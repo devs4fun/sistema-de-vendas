@@ -141,11 +141,55 @@ namespace SistemaDeVendas.Test
 
 
             //Act
-            var result = vendasController.Post(vendaRequest) as ObjectResult;
+            var result = vendasController.Post(vendaRequest);
 
             ////Assert
             vendasRepositoryMock.Verify(X => X.Criar(It.IsAny<Venda>()), Times.Exactly(1));
            
+        }
+        [Fact]
+        public void Testando_UmBrinde()
+        {
+            //Arrange
+            Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
+            VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
+            Cliente clienteTeste = new Cliente()
+            {
+                Id = 10,
+                Nome = "Lucas",
+                Telefone = "982121530",
+                Endereço = "Rua Sargento Davi nº3",
+                Email = "raphaeltest@yahoo.com.br"
+            };
+            Produto produtoTeste = new Produto()
+            {
+                Id = 1,
+                Nome = "Natura Homem",
+                Tipo = "Perfume",
+                Marca = "Natura",
+                Quantidade = 100,
+                ValorDeCompra = 30,
+                ValorSugeridoDeVenda = 58,
+                DataDeValidade = new DateTime(21, 09, 11)
+            };
+            VendaRequest vendaRequest = new VendaRequest()
+            {
+                EhBrinde = true,
+                Quantidade = 2,
+                Cliente = clienteTeste,
+                Produto = produtoTeste,
+                FormaDePagamento = Pagamento.Pix,
+                Status = true
+            };
+            vendasRepositoryMock.Setup(x => x.Criar(It.IsAny<Venda>())).Returns(true);
+
+
+            //Act
+            var result = vendasController.Post(vendaRequest);
+
+            ////Assert
+            Assert.True(vendaRequest.Produto.ValorSugeridoDeVenda == 0);
+
         }
     }
 }
