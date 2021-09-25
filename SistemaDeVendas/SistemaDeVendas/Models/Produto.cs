@@ -11,7 +11,6 @@ namespace SistemaDeVendas.Models
         public string Nome { get; set; }
         public string Tipo { get; set; }
         public string Marca { get; set; }
-        public int Quantidade { get; set; }
         public decimal ValorDeCompra { get; set; }
         public decimal ValorSugeridoDeVenda { get; set; }
         public DateTime DataDeValidade { get; set; }

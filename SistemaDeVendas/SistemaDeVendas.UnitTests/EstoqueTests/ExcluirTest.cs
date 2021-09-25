@@ -12,28 +12,30 @@ namespace SistemaDeVendas.UnitTests.EstoqueTests
         public void InteiroPassadoComoId_ExecutaExcluir_VerificaSeExcluirProdutosFoiChamadoUmaVez()
         {
             // Arrange
-            var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
-            var controller = new EstoquesController(estoqueRepositoryMock.Object);
+            var produtoRepositoryMock = new Mock<IProdutoRepository>();
+            var controller = new ProdutoController(produtoRepositoryMock.Object);
 
             // Act
             controller.Excluir(1);
 
             // Assert
-            estoqueRepositoryMock.Verify(x => x.ExcluirProduto(1), Times.Once);
+            produtoRepositoryMock.Verify(x => x.ExcluirProduto(1), Times.Once);
         }
 
         [Fact]
         public void InteiroPassadoComoIdEZero_ExecutaExcluir_DeveriaRetornarBadRequestResult()
         {
             // Arrange
-            var estoqueRepositoryMock = new Mock<IEstoqueRepository>();
-            var controller = new EstoquesController(estoqueRepositoryMock.Object);
+            var produtoRepositoryMock = new Mock<IProdutoRepository>();
+            var controller = new ProdutoController(produtoRepositoryMock.Object);
+
+            var resultadoEsperado = 400;
 
             // Act
-            var resultadoEsperado = controller.Excluir(0) as BadRequestResult;
-
+            var resultadoRecebido = controller.Excluir(0) as BadRequestResult;
+            
             // Assert
-            Assert.True(resultadoEsperado.StatusCode == 400);
+            Assert.True(resultadoRecebido.StatusCode == resultadoEsperado);
         }
     }
 }

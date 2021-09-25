@@ -5,18 +5,18 @@ using SistemaDeVendas.Models;
 namespace SistemaDeVendas.Controllers
 {
     [Route("api/estoques")]
-    public class EstoquesController : ControllerBase
+    public class ProdutoController : ControllerBase
     {
-        private readonly IEstoqueRepository _estoqueRepository;
-        public EstoquesController(IEstoqueRepository estoqueRepository)
+        private readonly IProdutoRepository _produtoRepository;
+        public ProdutoController(IProdutoRepository produtoRepository)
         {
-            _estoqueRepository = estoqueRepository;
+            _produtoRepository = produtoRepository;
         }
 
         [HttpGet]
         public IActionResult Buscar()
         {
-            var todosOsProdutos = _estoqueRepository.ListarTodosOsProdutos();
+            var todosOsProdutos = _produtoRepository.ListarTodosOsProdutos();
 
             if (todosOsProdutos == null) return BadRequest();
 
@@ -28,7 +28,7 @@ namespace SistemaDeVendas.Controllers
         {
             if (id == 0) return BadRequest();
 
-            var produto = _estoqueRepository.PesquisarProdutoPorId(id);
+            var produto = _produtoRepository.PesquisarProdutoPorId(id);
 
             if (produto == null) return NotFound();
 
@@ -40,7 +40,7 @@ namespace SistemaDeVendas.Controllers
         {
             if (produto == null) return BadRequest();
 
-            _estoqueRepository.AdicionarProduto(produto);
+            _produtoRepository.AdicionarProduto(produto);
 
             return Ok();
         }
@@ -50,7 +50,7 @@ namespace SistemaDeVendas.Controllers
         {
             if (produto == null) return NotFound();
 
-            _estoqueRepository.AtualizarProduto(produto);
+            _produtoRepository.AtualizarProduto(produto);
 
             return NoContent();
         }
@@ -60,7 +60,7 @@ namespace SistemaDeVendas.Controllers
         {
             if (id == 0) return BadRequest();
 
-            _estoqueRepository.ExcluirProduto(id);
+            _produtoRepository.ExcluirProduto(id);
 
             return NoContent();
         }

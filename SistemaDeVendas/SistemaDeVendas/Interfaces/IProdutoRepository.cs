@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SistemaDeVendas.Interfaces
 {
-    public interface IEstoqueRepository
+    public interface IProdutoRepository
     {
         List<Produto> ListarTodosOsProdutos();
         Produto PesquisarProdutoPorId(int id);
