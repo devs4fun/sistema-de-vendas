@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SistemaDeVendas.Repository;
+using SistemaDeVendas.Serviço;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,8 @@ namespace SistemaDeVendas
             services.AddControllers();
 
             services.AddScoped<IVendasRepository, VendasRepository>();
+
+            services.AddScoped<IServicoDeVenda, ServicoDeVenda>();
 
             //var connectionString = Configuration.GetConnectionString("SistemaDeVendasCs");
             //services.AddDbContext<AplicacaoContext>(options => options.UseSqlServer(connectionString));

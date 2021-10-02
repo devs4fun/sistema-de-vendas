@@ -9,7 +9,9 @@ namespace SistemaDeVendas.Repository
     public interface IVendasRepository
     {
        bool Criar(Venda venda);
-       // Venda GetById(int id);
+       
+        
+        // Venda GetById(int id);
        // IList<Produto> GetAll();
        // bool Update(Venda venda, VendaRequest vendasRequest);
        // bool Delete(Venda venda);

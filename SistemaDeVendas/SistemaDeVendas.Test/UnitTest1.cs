@@ -3,6 +3,7 @@ using Moq;
 using SistemaDeVendas.Controllers;
 using SistemaDeVendas.Models;
 using SistemaDeVendas.Repository;
+using SistemaDeVendas.Serviço;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -16,7 +17,8 @@ namespace SistemaDeVendas.Test
         {
             //Arrange
             Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
-            VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
+            Mock<IServicoDeVenda> servicoDeVendaMock = new Mock<IServicoDeVenda>();
+            VendasController vendasController = new VendasController(vendasRepositoryMock.Object, servicoDeVendaMock.Object);
             Produto produtoRequest = new Produto()
             {
                 Nome = "kaiak",
@@ -42,7 +44,8 @@ namespace SistemaDeVendas.Test
         {
             //Arrange
             Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
-            VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
+            Mock<IServicoDeVenda> servicoDeVendaMock = new Mock<IServicoDeVenda>();
+            VendasController vendasController = new VendasController(vendasRepositoryMock.Object, servicoDeVendaMock.Object);
             Cliente clienteRequest = new Cliente()
             {
                 Nome = "eu",
@@ -66,7 +69,8 @@ namespace SistemaDeVendas.Test
         {
             //Arrange
             Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
-            VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
+            Mock<IServicoDeVenda> servicoDeVendaMock = new Mock<IServicoDeVenda>();
+            ServicoDeVenda servicoDeVenda = new ServicoDeVenda(vendasRepositoryMock.Object);
             Cliente clienteTeste = new Cliente()
             {
                 Id = 4,
@@ -95,21 +99,22 @@ namespace SistemaDeVendas.Test
                 Status = true
             };
             vendasRepositoryMock.Setup(x => x.Criar(It.IsAny<Venda>())).Returns(true);
-            
 
             //Act
-            var result = vendasController.Post(vendaRequest) as ObjectResult;
+            servicoDeVenda.Vender(vendaRequest);
+
+            var result = servicoDeVenda.Vender(vendaRequest);
 
             ////Assert
-            
-            Assert.True(result.StatusCode == 201);
+            Assert.Equal(result, true);
         }
 
         public void Testando_QuantidadeDeVenda_BemSucedida()
         {
             //Arrange
             Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
-            VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
+            Mock<IServicoDeVenda> servicoDeVendaMock = new Mock<IServicoDeVenda>();
+            VendasController vendasController = new VendasController(vendasRepositoryMock.Object, servicoDeVendaMock.Object );
             Cliente clienteTeste = new Cliente()
             {
                 Id = 4,
@@ -137,14 +142,15 @@ namespace SistemaDeVendas.Test
                 FormaDePagamento = Pagamento.Pix,
                 Status = true
             };
-            vendasRepositoryMock.Setup(x => x.Criar(It.IsAny<Venda>())).Returns(true);
+            servicoDeVendaMock.Setup(x => x.Vender(vendaRequest)).Returns(true);
 
 
             //Act
             var result = vendasController.Post(vendaRequest);
 
             ////Assert
-            vendasRepositoryMock.Verify(X => X.Criar(It.IsAny<Venda>()), Times.Exactly(1));
+            servicoDeVendaMock.Verify(x => x.Vender(vendaRequest), Times.Exactly(1));
+            //servicoDeVendaMock.Verify(X => X.Vender(It.IsAny<Venda>()), Times.Exactly(1));
            
         }
         [Fact]
@@ -152,7 +158,8 @@ namespace SistemaDeVendas.Test
         {
             //Arrange
             Mock<IVendasRepository> vendasRepositoryMock = new Mock<IVendasRepository>();
-            VendasController vendasController = new VendasController(vendasRepositoryMock.Object);
+            Mock<IServicoDeVenda> servicoDeVendaMock = new Mock<IServicoDeVenda>();
+            ServicoDeVenda servicoDeVenda = new ServicoDeVenda(vendasRepositoryMock.Object);
             Cliente clienteTeste = new Cliente()
             {
                 Id = 10,
@@ -183,9 +190,8 @@ namespace SistemaDeVendas.Test
             };
             vendasRepositoryMock.Setup(x => x.Criar(It.IsAny<Venda>())).Returns(true);
 
-
             //Act
-            var result = vendasController.Post(vendaRequest);
+            servicoDeVenda.Vender(vendaRequest);
 
             ////Assert
             Assert.True(vendaRequest.Produto.ValorSugeridoDeVenda == 0);

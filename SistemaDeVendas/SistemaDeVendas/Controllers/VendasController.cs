@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaDeVendas.Models;
 using SistemaDeVendas.Repository;
+using SistemaDeVendas.Serviço;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,30 +15,24 @@ namespace SistemaDeVendas.Controllers
     public class VendasController : ControllerBase
     {
         private readonly IVendasRepository _vendasRepository;
+        private readonly IServicoDeVenda _servicoDeVenda;
 
-        public VendasController(IVendasRepository vendasRepository)
+        public VendasController(IVendasRepository vendasRepository,
+            IServicoDeVenda servicoDeVenda)
         {
             _vendasRepository = vendasRepository;
+            _servicoDeVenda = servicoDeVenda;
         }
 
         [HttpPost]
         public ActionResult Post([FromBody]VendaRequest vendaRequest)
         {
-            if (vendaRequest.Produto == null || vendaRequest.Cliente == null /*...*/)
-                return StatusCode(400);
+            var vendaRealizada = _servicoDeVenda.Vender(vendaRequest);
 
-            if (vendaRequest.EhBrinde == true)
-            {
-                vendaRequest.Produto.ValorSugeridoDeVenda = 0;
-            }
+            if (vendaRealizada == false)
+                return BadRequest();
 
-            var venda = new Venda(vendaRequest);
-            var vendaResponse = _vendasRepository.Criar(venda);
-
-            if (vendaResponse == false)
-                return StatusCode(500);
-
-            return StatusCode(201, vendaRequest);
+            return Ok(vendaRealizada);
         }
 
         //[HttpGet]
