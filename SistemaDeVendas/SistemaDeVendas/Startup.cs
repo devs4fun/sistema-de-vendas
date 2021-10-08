@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using SistemaDeVendas.Repository;
+using SistemaDeVendas.Serviço;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +29,13 @@ namespace SistemaDeVendas
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<IVendasRepository, VendasRepository>();
+
+            services.AddScoped<IServicoDeVenda, ServicoDeVenda>();
+
+            //var connectionString = Configuration.GetConnectionString("SistemaDeVendasCs");
+            //services.AddDbContext<AplicacaoContext>(options => options.UseSqlServer(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
